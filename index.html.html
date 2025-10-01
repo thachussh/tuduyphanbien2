@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tư duy phản biện - 8 Yếu Tố</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px 20px;
+            background: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .tab-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .element-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border-left: 5px solid #667eea;
+        }
+
+        .element-card h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .element-icon {
+            font-size: 1.5em;
+        }
+
+        .element-card h3 {
+            color: #764ba2;
+            margin: 15px 0 10px 0;
+            font-size: 1.2em;
+        }
+
+        .element-card ul {
+            margin-left: 20px;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .element-card .questions {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 120px;
+            margin-top: 10px;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .practice-section {
+            margin-top: 30px;
+        }
+
+        .situation-input {
+            background: #fff3cd;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border: 2px dashed #ffc107;
+        }
+
+        .situation-input h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 10px 5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .result-section {
+            display: none;
+            background: #d4edda;
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 25px;
+            border: 2px solid #28a745;
+        }
+
+        .result-section h3 {
+            color: #155724;
+            margin-bottom: 15px;
+        }
+
+        .result-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .result-item strong {
+            color: #667eea;
+        }
+
+        .example-section {
+            background: #e7f3ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 5px solid #2196F3;
+        }
+
+        .example-section h3 {
+            color: #0d47a1;
+            margin-bottom: 10px;
+        }
+
+        .example-section ul {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+
+        .guide-section {
+            background: #f0f0f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .guide-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .guide-section ol {
+            margin-left: 20px;
+            line-height: 2;
+        }
+
+        .footer {
+            text-align: center;
+            color: white;
+            margin-top: 30px;
+            padding: 20px;
+        }
+
+        .progress-bar {
+            background: #e0e0e0;
+            height: 10px;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab-btn {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧠 Ứng Dụng Tư duy phản biện</h1>
+            <p>Mô hình 8 Yếu Tố - Dr. Richard Paul & Dr. Linda Elder</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('intro')">📚 Giới Thiệu</button>
+            <button class="tab-btn" onclick="showTab('learn')">🎓 Học 8 Yếu Tố</button>
+            <button class="tab-btn" onclick="showTab('practice')">✍️ Thực Hành</button>
+            <button class="tab-btn" onclick="showTab('example')">💡 Ví Dụ Mẫu</button>
+        </div>
+
+        <div class="content">
+            <!-- TAB GIỚI THIỆU -->
+            <div id="intro" class="tab-content active">
+                <div class="guide-section">
+                    <h2>🎯 Tư duy phản biện Là Gì?</h2>
+                    <p style="line-height: 1.8; margin: 15px 0;">
+                        Tư duy phản biện (Critical Thinking) là khả năng suy nghĩ có hệ thống, logic và khách quan để phân tích, đánh giá thông tin trước khi đưa ra quyết định hoặc kết luận.
+                    </p>
+                    
+                    <h3 style="margin-top: 25px;">📊 Mô Hình 8 Yếu Tố</h3>
+                    <p style="line-height: 1.8; margin: 15px 0;">
+                        Mọi hành vi tư duy đều bao gồm 8 yếu tố cơ bản. Để tư duy tốt, chúng ta cần kiểm soát tất cả 8 yếu tố này:
+                    </p>
+                    
+                    <ol style="line-height: 2; margin-left: 20px; font-size: 1.1em;">
+                        <li><strong>🎯 Mục đích:</strong> Tại sao tôi đang tư duy về vấn đề này?</li>
+                        <li><strong>❓ Câu hỏi:</strong> Vấn đề cốt lõi là gì?</li>
+                        <li><strong>📊 Thông tin:</strong> Tôi cần dữ liệu gì?</li>
+                        <li><strong>🔍 Khái niệm:</strong> Ý tưởng, lý thuyết nào liên quan?</li>
+                        <li><strong>🧠 Giả định:</strong> Tôi đang giả định điều gì?</li>
+                        <li><strong>👁️ Góc nhìn:</strong> Các góc độ khác nhau?</li>
+                        <li><strong>💡 Suy luận:</strong> Kết luận tôi rút ra?</li>
+                        <li><strong>⚡ Hàm ý & Hậu quả:</strong> Điều gì sẽ xảy ra?</li>
+                    </ol>
+                </div>
+
+                <div class="guide-section" style="background: #e7f3ff;">
+                    <h3>💪 Lợi Ích Của Tư duy phản biện</h3>
+                    <ul style="line-height: 2; margin-left: 20px;">
+                        <li>✅ Đưa ra quyết định tốt hơn</li>
+                        <li>✅ Giải quyết vấn đề hiệu quả</li>
+                        <li>✅ Tránh sai lầm do thiên kiến</li>
+                        <li>✅ Giao tiếp thuyết phục hơn</li>
+                        <li>✅ Học tập sâu sắc hơn</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- TAB HỌC 8 YẾU TỐ -->
+            <div id="learn" class="tab-content">
+                <div class="element-card">
+                    <h2><span class="element-icon">🎯</span> 1. MỤC ĐÍCH (Purpose)</h2>
+                    <h3>Định nghĩa:</h3>
+                    <p>"Tại sao tôi đang tư duy về vấn đề này?"</p>
+                    
+                    <h3>Điểm chính:</h3>
+                    <ul>
+                        <li>Mọi tư duy đều phục vụ một mục đích</li>
+                        <li>Mục đích rõ ràng → Tư duy hiệu quả</li>
+                        <li>Phân biệt: Mục đích thực vs Mục đích bề nổi</li>
+                    </ul>
+                    
+                    <div class="questions">
+                        <strong>Tự hỏi:</strong>
+                        <ul>
+                            <li>Mục tiêu cuối cùng là gì?</li>
+                            <li>Mục đích này có quan trọng không?</li>
+                            <li>Có phù hợp đạo đức/pháp luật?</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="element-card">
+                    <h2><span class="element-icon">❓</span> 2. CÂU HỎI (Question)</h2>
+                    <h3>Định nghĩa:</h3>
+                    <p>"Vấn đề cốt lõi cần giải quyết là gì?"</p>
+                    
+                    <h3>Điểm chính:</h3>
+                    <ul>
+                        <li>Đặt đúng câu hỏi = Giải quyết đúng vấn đề</li>
+                        <li>Câu hỏi phải cụ thể, rõ ràng</li>
+                        <li>Tránh quá rộng hoặc mơ hồ</li>
+                    </ul>
+                    
+                    <div class="questions">
+                        <strong>Ví dụ:</strong>
+                        <ul>
+                            <li>❌ "Làm sao để học tốt?" (quá chung)</li>
+                            <li>✅ "Làm sao cải thiện điểm Kỹ năng mềm từ 6 lên 8 trong học kỳ này?" (cụ thể)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="element-card">
+                    <h2><span class="element-icon">📊</span> 3. THÔNG TIN (Information)</h2>
+                    <h3>Định nghĩa:</h3>
+                    <p>"Tôi cần dữ liệu, bằng chứng, sự kiện nào?"</p>
+                    
+                    <h3>Điểm chính:</h3>
+                    <ul>
+                        <li>Thông tin là nền tảng của tư duy</li>
+                        <li>Phân biệt: Sự kiện vs Ý kiến</li>
+                        <li>Đánh giá độ tin cậy và nguồn gốc</li>
+                    </ul>
+                    
+                    <div class="questions">
+                        <strong>Tự hỏi:</strong>
+                        <ul>
+                            <li>Thông tin từ đâu? Đáng tin không?</li>
+                            <li>Đủ thông tin để kết luận chưa?</li>
+                            <li>Thông tin nào quan trọng? Thông tin nào phụ?</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="element-card">
+                    <h2><span class="element-icon">🔍</span> 4. KHÁI NIỆM (Concepts)</h2>
+                    <h3>Định nghĩa:</h3>
+                    <p>"Ý tưởng, lý thuyết nào giúp hiểu vấn đề?"</p>
+                    
+                    <h3>Điểm chính:</h3>
+                    <ul>
+                        <li>Khái niệm = "Công cụ" tổ chức thông tin</li>
+                        <li>Hiểu đúng khái niệm → Phân tích đúng</li>
+                        <li>Định nghĩa rõ thuật ngữ quan trọng</li>
+                    </ul>
+                </div>
+
+                <div class="element-card">
+                    <h2><span class="element-icon">🧠</span> 5. GIẢ ĐỊNH (Assumptions)</h2>
+                    <h3>Định nghĩa:</h3>
+                    <p>"Tôi đang coi điều gì là đúng mà không chứng minh?"</p>
+                    
+                    <h3>Điểm chính:</h3>
+                    <ul>
+                        <li>Giả định = Niềm tin tiềm ẩn</li>
+                        <li>Giả định sai → Kết luận sai</li>
+                        <li>Cần nhận diện và kiểm chứng</li>
+                    </ul>
+                    
+                    <div class="questions">
+                        <strong>Ví dụ:</strong>
+                        <ul>
+                            <li>❌ "Tôi không giỏi thuyết trình vì hướng nội"</li>
+                            <li>✅ Kiểm chứng: Nhiều người hướng nội vẫn thuyết trình xuất sắc → Giả định sai!</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="element-card">
+                    <h2><span class="element-icon">👁️</span> 6. GÓC NHÌN (Point of View)</h2>
+                    <h3>Định nghĩa:</h3>
+                    <p>"Tôi đang nhìn vấn đề từ góc độ nào?"</p>
+                    
+                    <h3>Điểm chính:</h3>
+                    <ul>
+                        <li>Mỗi người có góc nhìn riêng</li>
+                        <li>Không có góc nhìn hoàn toàn khách quan</li>
+                        <li>Xem xét nhiều góc nhìn khác nhau</li>
+                    </ul>
+                </div>
+
+                <div class="element-card">
+                    <h2><span class="element-icon">💡</span> 7. SUY LUẬN (Inference)</h2>
+                    <h3>Định nghĩa:</h3>
+                    <p>"Từ thông tin đó, tôi rút ra kết luận gì?"</p>
+                    
+                    <h3>Điểm chính:</h3>
+                    <ul>
+                        <li>Suy luận = Từ thông tin → Kết luận</li>
+                        <li>Suy luận tốt: Logic, có căn cứ, nhất quán</li>
+                        <li>Phân biệt: Kết luận có căn cứ vs Phỏng đoán</li>
+                    </ul>
+                </div>
+
+                <div class="element-card">
+                    <h2><span class="element-icon">⚡</span> 8. HÀM Ý & HẬU QUẢ (Implications)</h2>
+                    <h3>Định nghĩa:</h3>
+                    <p>"Nếu tư duy/hành động như vậy, điều gì sẽ xảy ra?"</p>
+                    
+                    <h3>Điểm chính:</h3>
+                    <ul>
+                        <li>Mọi quyết định đều có hậu quả</li>
+                        <li>Dự đoán hậu quả ngắn hạn & dài hạn</li>
+                        <li>Đánh giá lợi ích và rủi ro</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- TAB THỰC HÀNH -->
+            <div id="practice" class="tab-content">
+                <div class="situation-input">
+                    <h3>📝 Bước 1: Nhập Tình Huống Của Bạn</h3>
+                    <p style="margin: 10px 0;">Mô tả một vấn đề/quyết định mà bạn đang gặp phải:</p>
+                    <textarea id="situation" placeholder="Ví dụ: Tôi đang cân nhắc có nên chuyển sang học online toàn thời gian không..."></textarea>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress" style="width: 0%"></div>
+                </div>
+
+                <div id="element1" class="element-card">
+                    <h2>🎯 1. MỤC ĐÍCH</h2>
+                    <p><strong>Câu hỏi:</strong> Tại sao bạn đang tư duy về vấn đề này? Mục tiêu cuối cùng của bạn là gì?</p>
+                    <textarea id="answer1" placeholder="Nhập phân tích của bạn về MỤC ĐÍCH..."></textarea>
+                </div>
+
+                <div id="element2" class="element-card">
+                    <h2>❓ 2. CÂU HỎI</h2>
+                    <p><strong>Câu hỏi:</strong> Vấn đề cốt lõi cần giải quyết là gì? Hãy diễn đạt câu hỏi một cách cụ thể.</p>
+                    <textarea id="answer2" placeholder="Nhập CÂU HỎI cụ thể..."></textarea>
+                </div>
+
+                <div id="element3" class="element-card">
+                    <h2>📊 3. THÔNG TIN</h2>
+                    <p><strong>Câu hỏi:</strong> Bạn cần thu thập những thông tin, dữ liệu, sự kiện nào để giải quyết vấn đề?</p>
+                    <textarea id="answer3" placeholder="Liệt kê các THÔNG TIN cần thiết..."></textarea>
+                </div>
+
+                <div id="element4" class="element-card">
+                    <h2>🔍 4. KHÁI NIỆM</h2>
+                    <p><strong>Câu hỏi:</strong> Những khái niệm, lý thuyết, ý tưởng nào liên quan đến vấn đề này?</p>
+                    <textarea id="answer4" placeholder="Liệt kê các KHÁI NIỆM liên quan..."></textarea>
+                </div>
+
+                <div id="element5" class="element-card">
+                    <h2>🧠 5. GIẢ ĐỊNH</h2>
+                    <p><strong>Câu hỏi:</strong> Bạn đang giả định điều gì? Những giả định này có hợp lý không?</p>
+                    <textarea id="answer5" placeholder="Nhận diện và kiểm chứng các GIẢ ĐỊNH..."></textarea>
+                </div>
+
+                <div id="element6" class="element-card">
+                    <h2>👁️ 6. GÓC NHÌN</h2>
+                    <p><strong>Câu hỏi:</strong> Các bên liên quan (bạn, gia đình, bạn bè, chuyên gia...) nhìn vấn đề này như thế nào?</p>
+                    <textarea id="answer6" placeholder="Phân tích từ nhiều GÓC NHÌN khác nhau..."></textarea>
+                </div>
+
+                <div id="element7" class="element-card">
+                    <h2>💡 7. SUY LUẬN</h2>
+                    <p><strong>Câu hỏi:</strong> Từ các thông tin và phân tích trên, bạn rút ra kết luận gì?</p>
+                    <textarea id="answer7" placeholder="Trình bày SUY LUẬN và kết luận của bạn..."></textarea>
+                </div>
+
+                <div id="element8" class="element-card">
+                    <h2>⚡ 8. HÀM Ý & HẬU QUẢ</h2>
+                    <p><strong>Câu hỏi:</strong> Nếu làm theo kết luận của bạn, điều gì sẽ xảy ra? Có hậu quả gì (tích cực/tiêu cực)?</p>
+                    <textarea id="answer8" placeholder="Dự đoán HẬU QUẢ ngắn hạn và dài hạn..."></textarea>
+                </div>
+
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="btn btn-success" onclick="generateResult()">📄 Tạo Báo Cáo Phân Tích</button>
+                    <button class="btn btn-secondary" onclick="clearAll()">🔄 Làm Mới</button>
+                    <button class="btn btn-primary" onclick="downloadResult()">💾 Tải Xuống</button>
+                </div>
+
+                <div id="result" class="result-section">
+                    <h3>📊 BÁO CÁO PHÂN TÍCH TƯ DUY PHẢN BIỆN</h3>
+                    <div id="resultContent"></div>
+                </div>
+            </div>
+
+            <!-- TAB VÍ DỤ MẪU -->
+            <div id="example" class="tab-content">
+                <h2 style="color: #667eea; margin-bottom: 20px;">💡 Ví Dụ Mẫu: Quyết Định Học Truyền Thông Đa Phương Tiện</h2>
+                
+                <div class="example-section">
+                    <h3>📝 TÌNH HUỐNG</h3>
+                    <p><strong>Tình huống:</strong> Tôi đang cân nhắc có nên chọn ngành Truyền thông Đa phương tiện để học đại học không. Đây là quyết định quan trọng ảnh hưởng đến cả tương lai nghề nghiệp của tôi.</p>
+                </div>
+
+                <div class="example-section">
+                    <h3>🎯 1. MỤC ĐÍCH</h3>
+                    <p><strong>Phân tích:</strong> Mục đích của tôi khi chọn ngành học là tìm được nghề nghiệp phù hợp với đam mê, có thu nhập ổn định và cơ hội phát triển lâu dài. Tôi không chỉ muốn theo đuổi đam mê mà còn cần đảm bảo yếu tố thực tế về thu nhập và sự phát triển trong tương lai.</p>
+                </div>
+
+                <div class="example-section">
+                    <h3>❓ 2. CÂU HỎI</h3>
+                    <p><strong>Câu hỏi cụ thể:</strong> Ngành Truyền thông Đa phương tiện có phù hợp với năng lực, sở thích và mục tiêu nghề nghiệp của tôi không?</p>
+                    <p><strong>Chi tiết hơn:</strong></p>
+                    <ul>
+                        <li>Liệu tôi có đủ năng lực sáng tạo?</li>
+                        <li>Thu nhập có đủ sống?</li>
+                        <li>Cơ hội việc làm như thế nào?</li>
+                        <li>Có phù hợp với tính cách của tôi?</li>
+                    </ul>
+                </div>
+
+                <div class="example-section">
+                    <h3>📊 3. THÔNG TIN</h3>
+                    <p><strong>Thông tin đã thu thập:</strong></p>
+                    <ul>
+                        <li>✓ Chương trình đào tạo: Thiết kế đồ họa, quay dựng video, social media marketing, animation...</li>
+                        <li>✓ Tỷ lệ việc làm: 85% sinh viên có việc trong vòng 6 tháng sau tốt nghiệp</li>
+                        <li>✓ Mức lương: 8-12 triệu (fresher), 15-30 triệu (có kinh nghiệm 3-5 năm)</li>
+                        <li>✓ Xu hướng ngành: Nhu cầu tăng mạnh do digital marketing phát triển</li>
+                        <li>✓ Yêu cầu công việc: Sáng tạo, kỹ thuật, làm việc với deadline, cập nhật xu hướng liên tục</li>
+                    </ul>
+                </div>
+
+                <div class="example-section">
+                    <h3>🔍 4. KHÁI NIỆM</h3>
+                    <p><strong>Các khái niệm cần hiểu:</strong></p>
+                    <ul>
+                        <li>• Truyền thông đa phương tiện: Sử dụng nhiều phương tiện (text, image, video, audio) để truyền tải thông điệp</li>
+                        <li>• Content Creator: Người sáng tạo nội dung số cho các nền tảng online</li>
+                        <li>• Digital Marketing: Tiếp thị qua các kênh trực tuyến</li>
+                        <li>• Portfolio: Bộ sưu tập các dự án, sản phẩm để chứng minh năng lực</li>
+                        <li>• Soft skills: Kỹ năng mềm như teamwork, time management, communication</li>
+                    </ul>
+                </div>
+
+                <div class="example-section">
+                    <h3>🧠 5. GIẢ ĐỊNH</h3>
+                    <p><strong>Các giả định và kiểm chứng:</strong></p>
+                    <ul>
+                        <li>❓ "Tôi có khả năng sáng tạo"<br>
+                        ✅ Kiểm chứng: Đã từng thiết kế poster cho lớp, quay clip cho hoạt động ngoại khóa và nhận được phản hồi tích cực từ bạn bè và thầy cô</li>
+                        <li>❓ "Ngành này sẽ vẫn hot sau 4 năm"<br>
+                        ⚠️ Cần cẩn trọng: Xu hướng có thể thay đổi, nhưng nhu cầu về content sẽ vẫn tồn tại dưới nhiều hình thức khác nhau</li>
+                        <li>❓ "Tôi có thể chịu được áp lực deadline"<br>
+                        ❌ Chưa chắc chắn: Tôi chưa từng làm việc với deadline căng thẳng thực sự, cần chuẩn bị tâm lý</li>
+                    </ul>
+                </div>
+
+                <div class="example-section">
+                    <h3>👁️ 6. GÓC NHÌN</h3>
+                    <p><strong>Góc nhìn từ các bên:</strong></p>
+                    <ul>
+                        <li><strong>👨‍👩‍👧 Bố mẹ:</strong> "Ngành này có ổn định không? Sau này con kiếm sống được không? Ngành kỹ sư, bác sĩ còn đảm bảo hơn mà?"</li>
+                        <li><strong>👥 Bạn bè:</strong> "Ngành này sáng tạo, trendy, làm việc với các brand lớn, cool lắm! Nhiều cơ hội phát triển!"</li>
+                        <li><strong>👨‍💼 Nhà tuyển dụng:</strong> "Sinh viên ngành này cần có portfolio thực chiến, không chỉ bằng cấp. Phải update xu hướng liên tục, áp lực công việc cao."</li>
+                        <li><strong>🧑‍🎓 Bản thân tôi:</strong> "Tôi thích sáng tạo, không muốn ngồi văn phòng làm việc nhàm chán. Tôi sẵn sàng học hỏi và cạnh tranh."</li>
+                    </ul>
+                </div>
+
+                <div class="example-section">
+                    <h3>💡 7. SUY LUẬN</h3>
+                    <p><strong>Kết luận:</strong></p>
+                    <p>Ngành Truyền thông Đa phương tiện <strong>PHÙ HỢP</strong> với tôi vì:</p>
+                    <ul>
+                        <li>✓ Kết hợp được sở thích sáng tạo với cơ hội nghề nghiệp thực tế</li>
+                        <li>✓ Có nhu cầu thị trường cao và đang tăng trưởng</li>
+                        <li>✓ Mức lương khởi điểm chấp nhận được và có tiềm năng phát triển</li>
+                        <li>✓ Tôi có năng lực sáng tạo bước đầu và đam mê với lĩnh vực này</li>
+                    </ul>
+                    <p><strong>Tuy nhiên, tôi cần:</strong></p>
+                    <ul>
+                        <li>✓ Chuẩn bị tâm lý về áp lực công việc cao</li>
+                        <li>✓ Cam kết học tập và rèn luyện liên tục</li>
+                        <li>✓ Xây dựng portfolio từ sớm</li>
+                        <li>✓ Phát triển kỹ năng quản lý thời gian</li>
+                    </ul>
+                </div>
+
+                <div class="example-section">
+                    <h3>⚡ 8. HÀM Ý & HẬU QUẢ</h3>
+                    <p><strong>Hậu quả dự đoán:</strong></p>
+                    
+                    <p><strong>✅ TÍCH CỰC:</strong></p>
+                    <ul>
+                        <li>• Ngắn hạn: Học những gì mình thích → Động lực cao → Kết quả học tập tốt</li>
+                        <li>• Trung hạn: Có portfolio chất lượng → Dễ xin việc sau tốt nghiệp</li>
+                        <li>• Dài hạn: Phát triển sự nghiệp ổn định trong lĩnh vực yêu thích</li>
+                    </ul>
+                    
+                    <p><strong>⚠️ TIÊU CỰC (nếu không chuẩn bị tốt):</strong></p>
+                    <ul>
+                        <li>• Áp lực cao về deadline → Stress, ảnh hưởng sức khỏe</li>
+                        <li>• Cạnh tranh gay gắt → Cần nỗ lực nhiều hơn người bình thường</li>
+                        <li>• Cần đầu tư thiết bị, phần mềm → Chi phí cao</li>
+                        <li>• Xu hướng thay đổi nhanh → Cần học tập liên tục</li>
+                    </ul>
+                    
+                    <p><strong>🎯 HÀNH ĐỘNG:</strong></p>
+                    <ul>
+                        <li>• Học kỹ năng quản lý thời gian từ năm 1</li>
+                        <li>• Tham gia các dự án thực tế sớm để xây dựng portfolio</li>
+                        <li>• Tìm mentor trong ngành để định hướng</li>
+                        <li>• Dự phòng tài chính cho việc mua thiết bị, khóa học</li>
+                    </ul>
+                </div>
+
+                <div style="text-align: center; margin-top: 30px;">
+                    <button class="btn btn-primary" onclick="loadExample()">📥 Tải Ví Dụ Này Vào Mục Thực Hành</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>💚 Phát triển bởi: Giảng viên Kỹ năng mềm</p>
+            <p>📧 Liên hệ hỗ trợ: Trung tâm Phát triển Năng lực Sinh viên</p>
+        </div>
+    </div>
+
+    <script>
+        // Chuyển tab
+        function showTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-content');
+            const buttons = document.querySelectorAll('.tab-btn');
+            
+            tabs.forEach(tab => tab.classList.remove('active'));
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Cập nhật progress bar
+        function updateProgress() {
+            let filled = 0;
+            for (let i = 1; i <= 8; i++) {
+                const answer = document.getElementById(`answer${i}`).value.trim();
+                if (answer) filled++;
+            }
+            const situation = document.getElementById('situation').value.trim();
+            if (situation) filled++;
+            
+            const percentage = (filled / 9) * 100;
+            document.getElementById('progress').style.width = percentage + '%';
+        }
+
+        // Thêm event listener cho tất cả textarea
+        document.addEventListener('DOMContentLoaded', function() {
+            const textareas = document.querySelectorAll('textarea');
+            textareas.forEach(textarea => {
+                textarea.addEventListener('input', updateProgress);
+            });
+        });
+
+        // Tạo báo cáo
+        function generateResult() {
+            const situation = document.getElementById('situation').value.trim();
+            
+            if (!situation) {
+                alert('⚠️ Vui lòng nhập tình huống trước!');
+                return;
+            }
+
+            let resultHTML = `
+                <div class="result-item">
+                    <strong>📝 TÌNH HUỐNG:</strong>
+                    <p>${situation}</p>
+                </div>
+            `;
+
+            const elements = [
+                { id: 1, icon: '🎯', name: 'MỤC ĐÍCH' },
+                { id: 2, icon: '❓', name: 'CÂU HỎI' },
+                { id: 3, icon: '📊', name: 'THÔNG TIN' },
+                { id: 4, icon: '🔍', name: 'KHÁI NIỆM' },
+                { id: 5, icon: '🧠', name: 'GIẢ ĐỊNH' },
+                { id: 6, icon: '👁️', name: 'GÓC NHÌN' },
+                { id: 7, icon: '💡', name: 'SUY LUẬN' },
+                { id: 8, icon: '⚡', name: 'HÀM Ý & HẬU QUẢ' }
+            ];
+
+            let hasContent = false;
+            elements.forEach(element => {
+                const answer = document.getElementById(`answer${element.id}`).value.trim();
+                if (answer) {
+                    hasContent = true;
+                    resultHTML += `
+                        <div class="result-item">
+                            <strong>${element.icon} ${element.id}. ${element.name}:</strong>
+                            <p>${answer.replace(/\n/g, '<br>')}</p>
+                        </div>
+                    `;
+                }
+            });
+
+            if (!hasContent) {
+                alert('⚠️ Vui lòng điền ít nhất một yếu tố phân tích!');
+                return;
+            }
+
+            document.getElementById('resultContent').innerHTML = resultHTML;
+            document.getElementById('result').style.display = 'block';
+            
+            // Scroll to result
+            document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Xóa tất cả
+        function clearAll() {
+            if (confirm('🤔 Bạn có chắc muốn xóa tất cả nội dung đã nhập?')) {
+                document.getElementById('situation').value = '';
+                for (let i = 1; i <= 8; i++) {
+                    document.getElementById(`answer${i}`).value = '';
+                }
+                document.getElementById('result').style.display = 'none';
+                updateProgress();
+                alert('✅ Đã xóa tất cả nội dung!');
+            }
+        }
+
+        // Tải xuống kết quả
+        function downloadResult() {
+            const situation = document.getElementById('situation').value.trim();
+            
+            if (!situation) {
+                alert('⚠️ Vui lòng tạo báo cáo phân tích trước!');
+                return;
+            }
+
+            let content = '=== BÁO CÁO PHÂN TÍCH TƯ DUY PHẢN BIỆN ===\n\n';
+            content += 'Ngày: ' + new Date().toLocaleDateString('vi-VN') + '\n\n';
+            content += '--- TÌNH HUỐNG ---\n' + situation + '\n\n';
+
+            const elements = [
+                '🎯 1. MỤC ĐÍCH',
+                '❓ 2. CÂU HỎI',
+                '📊 3. THÔNG TIN',
+                '🔍 4. KHÁI NIỆM',
+                '🧠 5. GIẢ ĐỊNH',
+                '👁️ 6. GÓC NHÌN',
+                '💡 7. SUY LUẬN',
+                '⚡ 8. HÀM Ý & HẬU QUẢ'
+            ];
+
+            for (let i = 1; i <= 8; i++) {
+                const answer = document.getElementById(`answer${i}`).value.trim();
+                if (answer) {
+                    content += `--- ${elements[i-1]} ---\n${answer}\n\n`;
+                }
+            }
+
+            content += '\n=== HẾT ===\n';
+            content += 'Được tạo bởi: Trung tâm Phát triển Năng lực Sinh viên\n';
+
+            // Tạo file và download
+            const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Phan-Tich-Tu-Duy-' + new Date().getTime() + '.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+
+            alert('✅ Đã tải xuống báo cáo thành công!');
+        }
+
+        // Load ví dụ mẫu
+        function loadExample() {
+            if (confirm('📥 Tải ví dụ mẫu sẽ ghi đè nội dung hiện tại. Bạn có chắc không?')) {
+                document.getElementById('situation').value = 'Tôi đang cân nhắc có nên chọn ngành Truyền thông Đa phương tiện để học đại học không. Đây là quyết định quan trọng ảnh hưởng đến cả tương lai nghề nghiệp của tôi.';
+                
+                document.getElementById('answer1').value = 'Mục đích của tôi khi chọn ngành học là tìm được nghề nghiệp phù hợp với đam mê, có thu nhập ổn định và cơ hội phát triển lâu dài. Tôi không chỉ muốn theo đuổi đam mê mà còn cần đảm bảo yếu tố thực tế về thu nhập và sự phát triển trong tương lai.';
+                
+                document.getElementById('answer2').value = 'Ngành Truyền thông Đa phương tiện có phù hợp với năng lực, sở thích và mục tiêu nghề nghiệp của tôi không?\n\nCụ thể hơn:\n- Liệu tôi có đủ năng lực sáng tạo?\n- Thu nhập có đủ sống?\n- Cơ hội việc làm như thế nào?\n- Có phù hợp với tính cách của tôi?';
+                
+                document.getElementById('answer3').value = 'Thông tin tôi đã thu thập:\n\n✓ Chương trình đào tạo: Thiết kế đồ họa, quay dựng video, social media marketing, animation...\n✓ Tỷ lệ việc làm: 85% sinh viên có việc trong vòng 6 tháng sau tốt nghiệp\n✓ Mức lương: 8-12 triệu (fresher), 15-30 triệu (có kinh nghiệm 3-5 năm)\n✓ Xu hướng ngành: Nhu cầu tăng mạnh do digital marketing phát triển\n✓ Yêu cầu công việc: Sáng tạo, kỹ thuật, làm việc với deadline, cập nhật xu hướng liên tục';
+                
+                document.getElementById('answer4').value = 'Các khái niệm cần hiểu:\n\n• Truyền thông đa phương tiện: Sử dụng nhiều phương tiện (text, image, video, audio) để truyền tải thông điệp\n• Content Creator: Người sáng tạo nội dung số cho các nền tảng online\n• Digital Marketing: Tiếp thị qua các kênh trực tuyến\n• Portfolio: Bộ sưu tập các dự án, sản phẩm để chứng minh năng lực\n• Soft skills: Kỹ năng mềm như teamwork, time management, communication';
+                
+                document.getElementById('answer5').value = 'Các giả định tôi có:\n\n❓ "Tôi có khả năng sáng tạo"\n✅ Kiểm chứng: Đã từng thiết kế poster cho lớp, quay clip cho hoạt động ngoại khóa và nhận được phản hồi tích cực từ bạn bè và thầy cô\n\n❓ "Ngành này sẽ vẫn hot sau 4 năm"\n⚠️ Cần cẩn trọng: Xu hướng có thể thay đổi, nhưng nhu cầu về content sẽ vẫn tồn tại dưới nhiều hình thức khác nhau\n\n❓ "Tôi có thể chịu được áp lực deadline"\n❌ Chưa chắc chắn: Tôi chưa từng làm việc với deadline căng thẳng thực sự, cần chuẩn bị tâm lý';
+                
+                document.getElementById('answer6').value = 'Góc nhìn từ các bên:\n\n👨‍👩‍👧 Bố mẹ: "Ngành này có ổn định không? Sau này con kiếm sống được không? Ngành kỹ sư, bác sĩ còn đảm bảo hơn mà?"\n\n👥 Bạn bè: "Ngành này sáng tạo, trendy, làm việc với các brand lớn, cool lắm! Nhiều cơ hội phát triển!"\n\n👨‍💼 Nhà tuyển dụng: "Sinh viên ngành này cần có portfolio thực chiến, không chỉ bằng cấp. Phải update xu hướng liên tục, áp lực công việc cao."\n\n🧑‍🎓 Bản thân tôi: "Tôi thích sáng tạo, không muốn ngồi văn phòng làm việc nhàm chán. Tôi sẵn sàng học hỏi và cạnh tranh."';
+                
+                document.getElementById('answer7').value = 'KẾT LUẬN:\n\nNgành Truyền thông Đa phương tiện PHÙ HỢP với tôi vì:\n\n✓ Kết hợp được sở thích sáng tạo với cơ hội nghề nghiệp thực tế\n✓ Có nhu cầu thị trường cao và đang tăng trưởng\n✓ Mức lương khởi điểm chấp nhận được và có tiềm năng phát triển\n✓ Tôi có năng lực sáng tạo bước đầu và đam mê với lĩnh vực này\n\nTuy nhiên, tôi cần:\n✓ Chuẩn bị tâm lý về áp lực công việc cao\n✓ Cam kết học tập và rèn luyện liên tục\n✓ Xây dựng portfolio từ sớm\n✓ Phát triển kỹ năng quản lý thời gian';
+                
+                document.getElementById('answer8').value = 'HẬU QUẢ DỰ ĐOÁN:\n\n✅ TÍCH CỰC:\n• Ngắn hạn: Học những gì mình thích → Động lực cao → Kết quả học tập tốt\n• Trung hạn: Có portfolio chất lượng → Dễ xin việc sau tốt nghiệp\n• Dài hạn: Phát triển sự nghiệp ổn định trong lĩnh vực yêu thích\n\n⚠️ TIÊU CỰC (nếu không chuẩn bị tốt):\n• Áp lực cao về deadline → Stress, ảnh hưởng sức khỏe\n• Cạnh tranh gay gắt → Cần nỗ lực nhiều hơn người bình thường\n• Cần đầu tư thiết bị, phần mềm → Chi phí cao\n• Xu hướng thay đổi nhanh → Cần học tập liên tục\n\n🎯 HÀNH ĐỘNG:\n• Học kỹ năng quản lý thời gian từ năm 1\n• Tham gia các dự án thực tế sớm để xây dựng portfolio\n• Tìm mentor trong ngành để định hướng\n• Dự phòng tài chính cho việc mua thiết bị, khóa học';
+
+                updateProgress();
+                
+                // Chuyển sang tab thực hành
+                const tabs = document.querySelectorAll('.tab-content');
+                const buttons = document.querySelectorAll('.tab-btn');
+                
+                tabs.forEach(tab => tab.classList.remove('active'));
+                buttons.forEach(btn => btn.classList.remove('active'));
+                
+                document.getElementById('practice').classList.add('active');
+                buttons[2].classList.add('active');
+                
+                alert('✅ Đã tải ví dụ mẫu thành công! Bạn có thể chỉnh sửa và học hỏi từ ví dụ này.');
+            }
+        }
+    </script>
+</body>
+</html>
